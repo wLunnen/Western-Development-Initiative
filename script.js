@@ -1,23 +1,21 @@
-// ----- Flip & Expand Card Logic -----
+// ----- Card Flip and Expand Logic -----
 const cards = document.querySelectorAll(".card");
 
 cards.forEach((card) => {
-  card.addEventListener("click", () => {
-    // If the card is already expanded, flip it back and collapse
-    if (card.classList.contains("flipped")) {
-      card.classList.remove("flipped", "expanded");
-      document.body.classList.remove("no-scroll");
-      return;
-    }
+  card.addEventListener("click", (e) => {
+    e.stopPropagation();
 
-    // Otherwise, flip and expand this card
-    cards.forEach((c) => c.classList.remove("flipped", "expanded")); // reset others
-    card.classList.add("flipped", "expanded");
-    document.body.classList.add("no-scroll");
+    // Toggle flip state
+    card.classList.toggle("flipped");
+    card.classList.toggle("expanded");
+
+    // Optional: Dim background cards when one expands
+    const isExpanded = card.classList.contains("expanded");
+    document.body.classList.toggle("no-scroll", isExpanded);
   });
 });
 
-// Optional: prevent background scrolling when a card is expanded
+// Prevent scrolling when card is expanded
 const style = document.createElement("style");
 style.innerHTML = `
   body.no-scroll {
